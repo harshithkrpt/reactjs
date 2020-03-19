@@ -1,0 +1,28 @@
+#todo {
+  width: 100%;
+  text-align: center;
+  margin: 10px;
+}
+
+#todo div {
+  margin: 15px;
+  padding: 10px;
+  background-color: #eee;
+  border-radius: 10px;
+  color: green;
+}
+
+#todo div button {
+  background-color: #eee;
+  border: none;
+  outline: none;
+  float: right;
+}
+
+#todo div #del {
+  color: red;
+}
+
+#todo div #update {
+  color: rgb(231, 96, 6);
+}

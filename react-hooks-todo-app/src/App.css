@@ -1,0 +1,14 @@
+#input input {
+  width: 90%;
+  display: block;
+  margin: auto;
+  padding: 20px;
+  font-size: 1.5rem;
+}
+
+#input button {
+  width: 90%;
+  display: block;
+  margin: 10px auto;
+  padding: 20px;
+}
