@@ -1,51 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
-import Navbar from "./components/UI/Navbar";
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
 
-import db from "./config/db";
-import { Button } from "@material-ui/core";
+// COMPONENTS
+import Navbar from "./components/UI/Navbar";
+import Auth from "./components/Auth/Auth";
+import Home from "./components/Pages/Home";
+
+// Context
+import { useAuthValue } from "./context/AuthContext";
+
+// Firestore
+// import db from "./config/db";
 
 function App() {
-  const [names, setnames] = useState([]);
-  useEffect(() => {
-    document.title = "Ecommerce App";
-  });
-  const inputName = useRef(null);
-  const handleSave = e => {
-    db.collection("name")
-      .add({
-        name: inputName.current.value
-      })
-      .then(doc => {
-        console.log(doc.id);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    inputName.current.value = "";
-  };
-
-  useEffect(() => {
-    db.collection("name")
-      .get()
-      .then(querySnapShot => {
-        console.log("Snap Shot : ", querySnapShot);
-        querySnapShot.forEach(doc => {
-          setnames([...names, doc.data()]);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [names]);
-
+  const { isLogin } = useAuthValue();
   return (
     <div className="App">
       <Navbar />
-      <h1>Add Data</h1>
-      <input ref={inputName} />
-      <Button variant="contained" color="primary" onClick={handleSave}>
-        Add
-      </Button>
+      <Switch>
+        <Route path="/" exact>
+          {!isLogin ? <Redirect to="/auth" /> : <Home />}
+        </Route>
+        <Route path="/auth" exact>
+          {isLogin ? <Redirect to="/" /> : <Auth />}
+        </Route>
+      </Switch>
     </div>
   );
 }

@@ -2,20 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+// React Router Deom
+import { BrowserRouter } from "react-router-dom";
+
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { amber, brown } from "@material-ui/core/colors";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const theme = createMuiTheme({
   palette: {
-    primary: brown,
-    secondary: amber,
-    type: "dark"
+    //   primary: brown,
+    //   secondary: amber,
+    type: "light"
   }
 });
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
+  <AuthContextProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
+  </AuthContextProvider>,
   document.getElementById("root")
 );

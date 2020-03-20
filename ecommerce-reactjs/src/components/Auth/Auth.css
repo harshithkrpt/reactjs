@@ -1,0 +1,19 @@
+#auth {
+  margin: 40vh auto 0;
+  transform: translateY(-50%);
+  background-color: #eee;
+  width: 50%;
+  text-align: center;
+  border-radius: 15px;
+}
+
+#auth .title {
+  width: 100%;
+  background-color: rgb(63, 81, 181);
+  height: 50px;
+  border-radius: 15px 15px 0px 0px;
+}
+
+#auth #elems {
+  padding: 20px;
+}
