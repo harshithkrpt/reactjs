@@ -2,9 +2,10 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // COMPONENTS
-import Navbar from "./components/UI/Navbar";
+import Navbar from "./components/UI/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import Home from "./components/Pages/Home";
+import Test from "./components/Test";
 
 // Context
 import { useAuthValue } from "./context/AuthContext";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/auth" exact>
           {isLogin ? <Redirect to="/" /> : <Auth />}
         </Route>
+        <Route path="/test" component={Test}></Route>
       </Switch>
     </div>
   );
