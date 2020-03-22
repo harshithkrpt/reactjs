@@ -4,6 +4,8 @@ import { IconButton, Badge } from "@material-ui/core";
 import { ShoppingCart, AccountCircle } from "@material-ui/icons";
 import NavOptions from "./NavOptions";
 import { useAuthValue } from "../../../context/AuthContext";
+import { useCartValue } from "../../../context/CartContext";
+import { Link } from "react-router-dom";
 
 const PrivateNav = ({
   handleSignOut,
@@ -13,13 +15,17 @@ const PrivateNav = ({
   handleProfileMenuOpen
 }) => {
   const { user } = useAuthValue();
-  useEffect(() => {}, [user]);
+  const { cart } = useCartValue();
+
+  useEffect(() => {}, [user, cart]);
   return (
     <>
       <IconButton>
-        <Badge color="secondary">
-          <ShoppingCart />
-        </Badge>
+        <Link to="/cart">
+          <Badge badgeContent={cart && cart.length} color="secondary">
+            <ShoppingCart />
+          </Badge>
+        </Link>
       </IconButton>
       <IconButton onClick={handleProfileMenuOpen}>
         {user !== undefined && user.photoURL ? (

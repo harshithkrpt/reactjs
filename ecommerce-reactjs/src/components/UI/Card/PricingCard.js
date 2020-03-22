@@ -8,7 +8,11 @@ import {
   IconButton,
   Box
 } from "@material-ui/core";
-import { AddShoppingCart, FavoriteBorder } from "@material-ui/icons";
+import {
+  AddShoppingCart,
+  FavoriteBorder,
+  RemoveShoppingCart
+} from "@material-ui/icons";
 
 const useStyles = makeStyles({
   root: {
@@ -32,14 +36,28 @@ const useStyles = makeStyles({
   }
 });
 
-const PricingCard = ({ title, prize, imageLink }) => {
+const PricingCard = ({
+  title,
+  prize,
+  imageLink,
+  addToCart,
+  cartItems,
+  id,
+  removeFromCart
+}) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
       <Box className={classes.top}>
-        <IconButton>
-          <AddShoppingCart />
-        </IconButton>
+        {!cartItems.includes(id) ? (
+          <IconButton onClick={addToCart}>
+            <AddShoppingCart />
+          </IconButton>
+        ) : (
+          <IconButton onClick={removeFromCart}>
+            <RemoveShoppingCart />
+          </IconButton>
+        )}
         <Box></Box>
         <IconButton>
           <FavoriteBorder />
