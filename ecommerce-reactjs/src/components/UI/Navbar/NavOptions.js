@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { MenuItem, Menu } from "@material-ui/core";
 // import {} from "@material-ui/icons";
 
@@ -11,8 +11,11 @@ const NavOptions = ({
 }) => {
   return (
     <Menu anchorEl={anchorEl} open={isMenuOpen} onClose={handleMenuClose}>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My Account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link style={{ textDecoration: "none" }} to="/profile">
+          Profile
+        </Link>
+      </MenuItem>
       <MenuItem
         onClick={e => {
           handleSignOut(e);

@@ -6,6 +6,7 @@ import Navbar from "./components/UI/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import Home from "./components/Pages/Home";
 import Test from "./components/Test";
+import Profile from "./components/Pages/Profile";
 
 // Context
 import { useAuthValue } from "./context/AuthContext";
@@ -22,9 +23,13 @@ function App() {
         <Route path="/" exact>
           {!isLogin ? <Redirect to="/auth" /> : <Home />}
         </Route>
+        <Route path="/profile" exact>
+          {!isLogin ? <Redirect to="/auth" /> : <Profile />}
+        </Route>
         <Route path="/auth" exact>
           {isLogin ? <Redirect to="/" /> : <Auth />}
         </Route>
+
         <Route path="/test" component={Test}></Route>
       </Switch>
     </div>

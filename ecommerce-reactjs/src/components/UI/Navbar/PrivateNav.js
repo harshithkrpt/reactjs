@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { IconButton, Badge } from "@material-ui/core";
 import { ShoppingCart, AccountCircle } from "@material-ui/icons";
 import NavOptions from "./NavOptions";
+import { useAuthValue } from "../../../context/AuthContext";
 
 const PrivateNav = ({
   handleSignOut,
@@ -11,6 +12,8 @@ const PrivateNav = ({
   anchorEl,
   handleProfileMenuOpen
 }) => {
+  const { user } = useAuthValue();
+  useEffect(() => {}, [user]);
   return (
     <>
       <IconButton>
@@ -19,7 +22,15 @@ const PrivateNav = ({
         </Badge>
       </IconButton>
       <IconButton onClick={handleProfileMenuOpen}>
-        <AccountCircle />
+        {user !== undefined && user.photoURL ? (
+          <img
+            style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+            src={user.photoURL}
+            alt=""
+          />
+        ) : (
+          <AccountCircle />
+        )}
       </IconButton>
       <NavOptions
         handleMenuClose={handleMenuClose}

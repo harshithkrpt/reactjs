@@ -22,6 +22,7 @@ const Home = props => {
       .catch(err => {
         console.log(err);
       });
+    return () => {};
   }, [products]);
   return (
     <div style={{ marginTop: 40 }}>

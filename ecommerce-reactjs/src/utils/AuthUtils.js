@@ -22,7 +22,13 @@ export const userAuthStateChange = (setIsLogin, setUser) => {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
       setIsLogin(true);
-      setUser({ email: user.email, uid: user.uid });
+      setUser({
+        email: user.email,
+        uid: user.uid,
+        displayName: user.displayName,
+        emailVerified: user.emailVerified,
+        photoURL: user.photoURL
+      });
     } else {
       setUser({});
       setIsLogin(false);
