@@ -4,7 +4,11 @@ import React from "react";
 import "./Test.css";
 
 const Test = props => {
-  return <div id="test" style={{ position: "relative" }}></div>;
+  return (
+    <div id="test" style={{ position: "relative" }}>
+      {/* <AddJsonToFirestore /> */}
+    </div>
+  );
 };
 
 export default Test;

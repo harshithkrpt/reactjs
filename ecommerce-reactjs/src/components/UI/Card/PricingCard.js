@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   }
 });
 
-const PricingCard = props => {
+const PricingCard = ({ title, prize, imageLink }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root}>
@@ -46,16 +46,12 @@ const PricingCard = props => {
         </IconButton>
       </Box>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="https://rukminim1.flixcart.com/image/660/792/juzuavk0/t-shirt/h/g/a/l-cnc51804-cool-n-comfort-original-imaffvaebvqcutth.jpeg?q=50"
-          title="card title"
-        />
+        <CardMedia className={classes.media} image={imageLink} title={title} />
         <Typography className={classes.price} variant="body1">
-          Price : $100
+          Price : ${prize.toString(10)}
         </Typography>
         <Typography variant="subtitle2" className={classes.title}>
-          Title
+          {title}
         </Typography>
       </CardActionArea>
     </Card>
