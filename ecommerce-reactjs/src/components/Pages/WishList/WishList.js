@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Typography, CircularProgress } from "@material-ui/core";
 import { useWishListValue } from "../../../context/WishListContext";
 import {
   removeFromWishList,
@@ -9,6 +9,7 @@ import WishListItems from "./WishListItems";
 import { Link } from "react-router-dom";
 
 const WishList = props => {
+  const [isLoading, setIsLoading] = useState(true);
   const {
     wishList,
     setWishList,
@@ -18,6 +19,7 @@ const WishList = props => {
 
   useEffect(() => {
     getWishListProducts(wishList, items => {
+      setIsLoading(false);
       if (JSON.stringify(items) !== JSON.stringify(wishListProducts)) {
         setWishListProducts([...items]);
       }
@@ -41,19 +43,31 @@ const WishList = props => {
 
   return (
     <div>
-      <Typography variant="h4">You WishList</Typography>
-      <>
-        {wishListProducts && wishListProducts.length > 0 ? (
-          <WishListItems
-            products={wishListProducts}
-            removeFromWishList={handleRemoveFromWishList}
-          />
-        ) : (
-          <Typography variant="h4">
-            No Items In the WishList <Link to="/">Shop</Link>
-          </Typography>
-        )}
-      </>
+      {isLoading ? (
+        <CircularProgress
+          style={{
+            width: 250,
+            height: 250,
+            display: "block",
+            margin: "10px auto"
+          }}
+        />
+      ) : (
+        <>
+          <Typography variant="h4">You WishList</Typography>
+
+          {wishListProducts && wishListProducts.length > 0 ? (
+            <WishListItems
+              products={wishListProducts}
+              removeFromWishList={handleRemoveFromWishList}
+            />
+          ) : (
+            <Typography variant="h4">
+              No Items In the WishList <Link to="/">Shop</Link>
+            </Typography>
+          )}
+        </>
+      )}
     </div>
   );
 };

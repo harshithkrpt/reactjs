@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import db from "../../config/db";
 import PricingCard from "../../components/UI/Card/PricingCard";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 import { addToCart, getCartItems, removeFromCart } from "../../utils/CartUtil";
 import { useCartValue } from "../../context/CartContext";
 import { useWishListValue } from "../../context/WishListContext";
+import { useProductValue } from "../../context/ProductContext";
 import {
   addToWishList,
   getWishListItems,
@@ -12,25 +13,27 @@ import {
 } from "../../utils/WishListUtil";
 
 const Home = props => {
-  const [products, setProducts] = useState([]);
+  const { homeProducts, setHomeProducts } = useProductValue([]);
+
+  const [isLoading, setIsLoading] = useState(true);
   // Getting The Products
   useEffect(() => {
-    const newProducts = [];
+    const newHomeProducts = [];
     db.collection("product")
       .limit(20)
       .get()
       .then(querySnapShot => {
         querySnapShot.forEach(doc => {
-          newProducts.push({ id: doc.id, ...doc.data() });
+          newHomeProducts.push({ id: doc.id, ...doc.data() });
         });
-        if (JSON.stringify(products) !== JSON.stringify(newProducts)) {
-          setProducts(newProducts);
+        if (JSON.stringify(homeProducts) !== JSON.stringify(newHomeProducts)) {
+          setHomeProducts(newHomeProducts);
         }
       })
       .catch(err => {
         console.log(err);
       });
-  }, [products]);
+  }, [homeProducts, setHomeProducts]);
 
   const { cart, setCart } = useCartValue();
   // GetCart Items
@@ -56,6 +59,7 @@ const Home = props => {
   useEffect(() => {
     getWishListItems()
       .then(snapshot => {
+        setIsLoading(false);
         if (snapshot.size !== 0) {
           let newWishList;
           snapshot.forEach(doc => {
@@ -115,33 +119,44 @@ const Home = props => {
 
   return (
     <div style={{ marginTop: 40 }}>
-      <Grid container spacing={5}>
-        {products.map(product => {
-          return (
-            <PricingCard
-              id={product.id}
-              key={product.id}
-              title={product.title}
-              prize={product.prize}
-              imageLink={product.imageLink}
-              cartItems={cart || []}
-              addToCart={() => {
-                handleAddToCart(product);
-              }}
-              removeFromCart={() => {
-                handleRemoveFromCart(product);
-              }}
-              wishListItems={wishList || []}
-              addToWishList={() => {
-                handleAddToWishList(product);
-              }}
-              removeFromWishList={() => {
-                handleRemoveFromWishList(product);
-              }}
-            />
-          );
-        })}
-      </Grid>
+      {isLoading ? (
+        <CircularProgress
+          style={{
+            width: 250,
+            height: 250,
+            display: "block",
+            margin: "10px auto"
+          }}
+        />
+      ) : (
+        <Grid container spacing={5}>
+          {homeProducts.map(product => {
+            return (
+              <PricingCard
+                id={product.id}
+                key={product.id}
+                title={product.title}
+                prize={product.prize}
+                imageLink={product.imageLink}
+                cartItems={cart || []}
+                addToCart={() => {
+                  handleAddToCart(product);
+                }}
+                removeFromCart={() => {
+                  handleRemoveFromCart(product);
+                }}
+                wishListItems={wishList || []}
+                addToWishList={() => {
+                  handleAddToWishList(product);
+                }}
+                removeFromWishList={() => {
+                  handleRemoveFromWishList(product);
+                }}
+              />
+            );
+          })}
+        </Grid>
+      )}
     </div>
   );
 };

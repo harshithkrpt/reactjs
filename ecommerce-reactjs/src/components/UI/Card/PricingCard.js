@@ -15,6 +15,7 @@ import {
   Favorite
 } from "@material-ui/icons";
 
+import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     maxWidth: 240
@@ -73,15 +74,21 @@ const PricingCard = ({
           </IconButton>
         )}
       </Box>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={imageLink} title={title} />
-        <Typography className={classes.price} variant="body1">
-          Price : ${prize.toString(10)}
-        </Typography>
-        <Typography variant="subtitle2" className={classes.title}>
-          {title}
-        </Typography>
-      </CardActionArea>
+      <Link to={`/product/${id}`} style={{ textDecoration: "none" }}>
+        <CardActionArea>
+          <CardMedia
+            className={classes.media}
+            image={imageLink}
+            title={title}
+          />
+          <Typography className={classes.price} variant="body1">
+            Price : ${prize.toString(10)}
+          </Typography>
+          <Typography variant="subtitle2" className={classes.title}>
+            {title}
+          </Typography>
+        </CardActionArea>
+      </Link>
     </Card>
   );
 };
