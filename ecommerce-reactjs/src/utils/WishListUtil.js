@@ -1,10 +1,10 @@
 import firebase from "../config/firebase";
 import db from "../config/db";
 
-export const addToCart = cartItem => {
+export const addToWishList = cartItem => {
   const uid = firebase.auth().currentUser.uid;
   return db
-    .collection("cart")
+    .collection("wishlist")
     .where("uid", "==", uid)
     .get()
     .then(snapshot => {
@@ -21,7 +21,7 @@ export const addToCart = cartItem => {
         }
         products = [...products, cartItem.id];
         return db
-          .collection("cart")
+          .collection("wishlist")
           .doc(id)
           .update({
             uid,
@@ -30,7 +30,7 @@ export const addToCart = cartItem => {
       } else {
         // Create the Cart Collection
         let products = [cartItem.id];
-        return db.collection("cart").add({ uid, products });
+        return db.collection("wishlist").add({ uid, products });
       }
     })
     .catch(err => {
@@ -38,18 +38,18 @@ export const addToCart = cartItem => {
     });
 };
 
-export const getCartItems = () => {
+export const getWishListItems = () => {
   const uid = firebase.auth().currentUser.uid;
   return db
-    .collection("cart")
+    .collection("wishlist")
     .where("uid", "==", uid)
     .get();
 };
 
-export const removeFromCart = cartItem => {
+export const removeFromWishList = cartItem => {
   const uid = firebase.auth().currentUser.uid;
   return db
-    .collection("cart")
+    .collection("wishlist")
     .where("uid", "==", uid)
     .get()
     .then(snapshot => {
@@ -64,7 +64,7 @@ export const removeFromCart = cartItem => {
         // Filter the Product
         products = products.filter(product => product !== cartItem.id);
         return db
-          .collection("cart")
+          .collection("wishlist")
           .doc(id)
           .update({
             uid,
@@ -77,24 +77,28 @@ export const removeFromCart = cartItem => {
     });
 };
 
-export const getCartProducts = (cart, callback) => {
-  const cartProducts = cart.map(id => {
+export const getWishListProducts = (wishList, callback) => {
+  const wishListProducts = wishList.map(id => {
     return db
       .collection("product")
       .doc(id)
       .get();
   });
 
-  Promise.all(cartProducts).then(docs => {
-    let items = docs.map(doc => {
-      let obj = {};
-      let data = doc.data();
-      obj.id = doc.id;
-      obj.imageLink = data.imageLink;
-      obj.title = data.title;
-      obj.prize = data.prize;
-      return obj;
+  Promise.all(wishListProducts)
+    .then(docs => {
+      let items = docs.map(doc => {
+        let obj = {};
+        let data = doc.data();
+        obj.id = doc.id;
+        obj.imageLink = data.imageLink;
+        obj.title = data.title;
+        obj.prize = data.prize;
+        return obj;
+      });
+      callback([...items]);
+    })
+    .catch(err => {
+      console.log(err);
     });
-    callback([...items]);
-  });
 };

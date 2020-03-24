@@ -3,8 +3,11 @@ import React, { useEffect } from "react";
 import { IconButton, Badge } from "@material-ui/core";
 import { ShoppingCart, AccountCircle } from "@material-ui/icons";
 import NavOptions from "./NavOptions";
+
+// Contect Values
 import { useAuthValue } from "../../../context/AuthContext";
 import { useCartValue } from "../../../context/CartContext";
+
 import { Link } from "react-router-dom";
 
 const PrivateNav = ({

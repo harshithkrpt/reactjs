@@ -5,6 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 
 import { useAuthValue } from "../../../context/AuthContext";
+import { useCartValue } from "../../../context/CartContext";
+import { useWishListValue } from "../../../context/WishListContext";
+
 import { signOutUser } from "../../../utils/AuthUtils";
 
 // ChildComponents
@@ -24,8 +27,18 @@ const useStyles = makeStyles(theme => ({
 const Navbar = props => {
   // Network State
   const { isLogin, setIsLogin, setUser } = useAuthValue();
+  const { setCart, setCartProducts } = useCartValue();
+  const { setWishList, setWishListProducts } = useWishListValue();
+
   const handleSignOut = e => {
-    signOutUser(setIsLogin, setUser);
+    signOutUser(
+      setIsLogin,
+      setUser,
+      setWishList,
+      setWishListProducts,
+      setCart,
+      setCartProducts
+    );
   };
 
   // UI State

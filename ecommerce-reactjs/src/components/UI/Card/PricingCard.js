@@ -11,7 +11,8 @@ import {
 import {
   AddShoppingCart,
   FavoriteBorder,
-  RemoveShoppingCart
+  RemoveShoppingCart,
+  Favorite
 } from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -43,7 +44,10 @@ const PricingCard = ({
   addToCart,
   cartItems,
   id,
-  removeFromCart
+  removeFromCart,
+  wishListItems,
+  addToWishList,
+  removeFromWishList
 }) => {
   const classes = useStyles();
   return (
@@ -59,9 +63,15 @@ const PricingCard = ({
           </IconButton>
         )}
         <Box></Box>
-        <IconButton>
-          <FavoriteBorder />
-        </IconButton>
+        {!wishListItems.includes(id) ? (
+          <IconButton onClick={addToWishList}>
+            <FavoriteBorder />
+          </IconButton>
+        ) : (
+          <IconButton onClick={removeFromWishList}>
+            <Favorite />
+          </IconButton>
+        )}
       </Box>
       <CardActionArea>
         <CardMedia className={classes.media} image={imageLink} title={title} />

@@ -36,13 +36,24 @@ export const userAuthStateChange = (setIsLogin, setUser) => {
   });
 };
 
-export const signOutUser = (setIsLogin, setUser) => {
+export const signOutUser = (
+  setIsLogin,
+  setUser,
+  setWishList,
+  setWishListProducts,
+  setCart,
+  setCartProducts
+) => {
   firebase
     .auth()
     .signOut()
     .then(() => {
       setIsLogin(false);
       setUser({});
+      setWishList([]);
+      setCart([]);
+      setWishListProducts([]);
+      setCartProducts([]);
     })
     .catch(err => {
       console.log(err);

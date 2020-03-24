@@ -16,6 +16,11 @@ const NavOptions = ({
           Profile
         </Link>
       </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link style={{ textDecoration: "none" }} to="/wishlist">
+          WishList
+        </Link>
+      </MenuItem>
       <MenuItem
         onClick={e => {
           handleSignOut(e);
