@@ -77,6 +77,34 @@ export const removeFromWishList = cartItem => {
     });
 };
 
+export const clearWishList = callback => {
+  const uid = firebase.auth().currentUser.uid;
+  db.collection("wishlist")
+    .where("uid", "==", uid)
+    .get()
+    .then(snapshot => {
+      if (snapshot.size !== 0) {
+        let id;
+        snapshot.forEach(doc => {
+          id = doc.id;
+        });
+
+        db.collection("wishlist")
+          .doc(id)
+          .update({
+            uid,
+            products: []
+          })
+          .then(() => {
+            callback();
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 export const getWishListProducts = (wishList, callback) => {
   const wishListProducts = wishList.map(id => {
     return db

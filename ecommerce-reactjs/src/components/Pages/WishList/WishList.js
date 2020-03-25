@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { Typography, CircularProgress, Button, Paper } from "@material-ui/core";
 import { useWishListValue } from "../../../context/WishListContext";
 import {
   removeFromWishList,
-  getWishListProducts
+  getWishListProducts,
+  clearWishList
 } from "../../../utils/WishListUtil";
 import WishListItems from "./WishListItems";
 import { Link } from "react-router-dom";
@@ -41,6 +42,13 @@ const WishList = props => {
       });
   };
 
+  const handleClearWishList = () => {
+    clearWishList(() => {
+      setWishList([]);
+      setWishListProducts([]);
+    });
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -54,13 +62,32 @@ const WishList = props => {
         />
       ) : (
         <>
-          <Typography variant="h4">You WishList</Typography>
+          <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
+            Your WishList
+          </Typography>
 
           {wishListProducts && wishListProducts.length > 0 ? (
-            <WishListItems
-              products={wishListProducts}
-              removeFromWishList={handleRemoveFromWishList}
-            />
+            <Paper
+              style={{
+                maxWidth: "80%",
+                margin: "30px auto",
+                position: "relative"
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{ position: "absolute", right: "5%", top: "-80px" }}
+                onClick={handleClearWishList}
+              >
+                Clear WishList
+              </Button>
+              <br />
+              <WishListItems
+                products={wishListProducts}
+                removeFromWishList={handleRemoveFromWishList}
+              />
+            </Paper>
           ) : (
             <Typography variant="h4">
               No Items In the WishList <Link to="/">Shop</Link>

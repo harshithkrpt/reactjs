@@ -1,7 +1,16 @@
 import React from "react";
 import { Typography, Grid, Button } from "@material-ui/core";
 
-export default function ProductDetails({ product }) {
+export default function ProductDetails({
+  product,
+  addToCart,
+  addToWishList,
+  removeFromCart,
+  removeFromWishList,
+  id,
+  wishList,
+  cart
+}) {
   return (
     <div>
       <Typography align="center" variant="h4">
@@ -14,7 +23,7 @@ export default function ProductDetails({ product }) {
         <Grid item xs={6}>
           <img
             src={product.imageLink}
-            style={{ width: "500px", height: "640px" }}
+            style={{ width: "500px", height: "640px", margin: "0 auto" }}
             alt={product.title}
           />
         </Grid>
@@ -22,24 +31,59 @@ export default function ProductDetails({ product }) {
           <Typography align="center" variant="h3">
             ${product.prize}/-
           </Typography>
+
+          <Grid container alignContent="center" alignItems="center">
+            <Grid item xs={6}>
+              {cart.includes(id) ? (
+                <Button
+                  onClick={removeFromCart}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Remove From Cart
+                </Button>
+              ) : (
+                <Button
+                  onClick={addToCart}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Add To Cart
+                </Button>
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              {wishList.includes(id) ? (
+                <Button
+                  onClick={removeFromWishList}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Remove From WishList
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  onClick={addToWishList}
+                  color="secondary"
+                >
+                  Add To WishList
+                </Button>
+              )}
+            </Grid>
+          </Grid>
           <br />
-          <br />
-          <br />
-          <Button variant="outlined" color="secondary">
-            Buy Now
-          </Button>
-          <br />
-          <br />
-          <br />
-          <Button variant="outlined" color="secondary">
-            Add To Cart
-          </Button>
-          <br />
-          <br />
-          <br />
-          <Button variant="outlined" color="secondary">
-            Add To WishList
-          </Button>
+          <Grid container alignContent="center" alignItems="center">
+            <Grid item xs={8}>
+              <Button
+                variant="outlined"
+                style={{ width: "100%" }}
+                color="secondary"
+              >
+                Buy Now
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </div>

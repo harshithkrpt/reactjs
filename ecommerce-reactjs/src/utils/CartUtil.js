@@ -77,6 +77,35 @@ export const removeFromCart = cartItem => {
     });
 };
 
+// Clear All Items from Cart
+export const clearCart = callback => {
+  const uid = firebase.auth().currentUser.uid;
+  db.collection("cart")
+    .where("uid", "==", uid)
+    .get()
+    .then(snapshot => {
+      if (snapshot.size !== 0) {
+        let id;
+        snapshot.forEach(doc => {
+          id = doc.id;
+        });
+
+        db.collection("cart")
+          .doc(id)
+          .update({
+            uid,
+            products: []
+          })
+          .then(() => {
+            callback();
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 export const getCartProducts = (cart, callback) => {
   const cartProducts = cart.map(id => {
     return db

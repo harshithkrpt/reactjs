@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { Typography, CircularProgress, Button, Paper } from "@material-ui/core";
 import { useCartValue } from "../../../context/CartContext";
-import { removeFromCart, getCartProducts } from "../../../utils/CartUtil";
+import {
+  removeFromCart,
+  getCartProducts,
+  clearCart
+} from "../../../utils/CartUtil";
 import CartItems from "./CartItems";
 import { Link } from "react-router-dom";
 
@@ -31,6 +35,13 @@ const Cart = props => {
       });
   };
 
+  const handleClearCart = () => {
+    clearCart(() => {
+      setCart([]);
+      setCartProducts([]);
+    });
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -44,13 +55,32 @@ const Cart = props => {
         />
       ) : (
         <>
-          <Typography variant="h4">You Cart</Typography>
+          <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
+            Your Cart
+          </Typography>
 
           {cartProducts.length > 0 ? (
-            <CartItems
-              products={cartProducts}
-              removeFromCart={handleRemoveFromCart}
-            />
+            <Paper
+              style={{
+                maxWidth: "80%",
+                margin: "30px auto",
+                position: "relative"
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="secondary"
+                style={{ position: "absolute", right: "5%", top: "-80px" }}
+                onClick={handleClearCart}
+              >
+                Clear Cart
+              </Button>
+              <br />
+              <CartItems
+                products={cartProducts}
+                removeFromCart={handleRemoveFromCart}
+              />
+            </Paper>
           ) : (
             <Typography variant="h4">
               No Items In the Cart <Link to="/">Shop</Link>
