@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Counter = props => {
+const Counter = (props) => {
   const [count, setCount] = useState(0);
 
   // useEffect
